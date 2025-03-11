@@ -51,33 +51,19 @@ async def leave(ctx):
 
 @bot.command()
 async def play(ctx, url):
-    """Play audio from a YouTube video"""
+    """Play audio from a YouTube video or playlist"""
     if not ctx.author.voice:
         await ctx.send("You must be in a voice channel!")
         return
     
-    voice_channel = ctx.voice_client
-    if not voice_channel:
+    if not ctx.voice_client:
         await ctx.invoke(join)
-        voice_channel = ctx.voice_client
 
     try:
-        #  Playlist
         if 'playlist?list=' in url:
-            info = await extract_playlist_info(url, ctx)
-            for entry in info['entries']:
-                if entry and 'url' in entry:
-                    song_queue.append({'url': entry['url'], 'title': entry['title']})
-
-            if voice_channel.is_playing() or is_paused:
-                await ctx.send(f"**Added {len(info['entries'])} songs to the queue from the playlist:** {info['title']}")
-        # Single video
+            await play_playlist(url, ctx)
         else:
-            info = await extract_video_info(url)
-            song_queue.append({'url': info['url'], 'title': info['title']})
-            
-            if voice_channel.is_playing() or is_paused:
-                await ctx.send(f"**Added to queue:** {info['title']}")
+            await play_video(url, ctx)
 
     except youtube_dl.DownloadError as e:
         if 'video unavailable' in str(e).lower():
@@ -87,9 +73,27 @@ async def play(ctx, url):
         await ctx.send(f"An unexpected error occurred: {str(e)}")
         print(f"Unexpected error: {e}")
 
-    # Start playing
-    if not voice_channel.is_playing():
+    if not ctx.voice_client.is_playing():
         await play_next(ctx)
+
+async def play_playlist(url, ctx):
+    """Play audio from playlist"""
+    info = await extract_playlist_info(url, ctx)
+
+    for entry in info['entries']:
+        if entry and 'url' in entry:
+            song_queue.append({'url': entry['url'], 'title': entry['title']})
+
+    if ctx.voice_client.is_playing() or is_paused:
+        await ctx.send(f"**Added {len(info['entries'])} songs to the queue from the playlist:** {info['title']}")
+
+async def play_video(url, ctx):
+    """ Play audio from video"""
+    info = await extract_video_info(url)
+    song_queue.append({'url': info['url'], 'title': info['title']})
+
+    if ctx.voice_client.is_playing() or is_paused:
+        await ctx.send(f"**Added to queue:** {info['title']}")
 
 async def extract_video_info(url):
     """Extract video information from YouTube"""
@@ -114,8 +118,7 @@ async def extract_playlist_info(url, ctx):
     }
     try:
         loop = asyncio.get_event_loop()
-        result = await loop.run_in_executor(None, lambda: youtube_dl.YoutubeDL(ydl_opts).extract_info(url, download=False))
-        
+        result = await loop.run_in_executor(None, lambda: youtube_dl.YoutubeDL(ydl_opts).extract_info(url, download=False))       
         await message_queue.join()
         return result
     

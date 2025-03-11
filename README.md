@@ -57,7 +57,7 @@ Create a `.env` file in the root directory of your project and add your Discord 
 DISCORD_TOKEN=your_bot_token_here
 ```
 
-### 5. Run the Bot:
+### 5. Run the Bot
 Once everything is set up, you can run the bot using the following command:
 ```bash
 python bot.py
@@ -65,7 +65,7 @@ python bot.py
 
 ## Important Notes
 
-- **Permissions:** Ensure the bot has permissions to connect and speak permissions in voice channels
+- **Permissions:** Ensure the bot has permissions to connect and speak in voice channels
 - **Playlist URL:** For playlists, ensure you're using the playlist URL *(not a single song URL from the playlist).* The bot will fail to fetch videos if the playlist URL is incorrect
 - **Video Restrictions:** If a playlist contains a geo-restricted, age-restricted, or unavailable video, the bot will fail to download the playlist.
 

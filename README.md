@@ -22,6 +22,9 @@ I created this music bot to provide a reliable solution for playing songs and pl
 | `!leave`      | Leaves the voice channel |
 | `!help`       | Displays available commands |
 
+## Language
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+
 ## Installation
 
 ### 1. Clone this repository

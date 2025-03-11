@@ -27,7 +27,7 @@ I created this music bot to provide a reliable solution for playing songs and pl
 
 ## Installation
 
-### 1. Clone this repository
+### 1. Clone Repository
 To get started, clone this repository to your local machine:
 ```bash
 git clone https://github.com/EthanL285/Discord-Music-Bot.git

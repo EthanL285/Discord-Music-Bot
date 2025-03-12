@@ -1,6 +1,6 @@
 # Discord Music Bot
 
-I created this music bot to provide a reliable solution for playing songs and playlists from YouTube in Discord. Unlike many existing bots that don't work or are restricted by copyright laws, this bot lets you enjoy music without hassle.
+I created this music bot to provide a reliable way for playing songs and playlists from YouTube in Discord. Unlike many existing bots that don't work or are restricted by copyright laws, this bot lets you enjoy music without hassle.
 
 ## Features
 - Play songs and playlists from YouTube URLs
@@ -60,7 +60,7 @@ DISCORD_TOKEN=your_bot_token_here
 ### 5. Run the Bot
 Once everything is set up, you can run the bot using the following command:
 ```bash
-python bot.py
+python ./bot.py
 ```
 
 ## Important Notes
